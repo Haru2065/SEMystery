@@ -1,0 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CSVImporter : MonoBehaviour
+{
+
+    [Header("AddressablesÇÃCSVÉLÅ[")]
+    public string addressKey;
+
+    [Header("ï€ë∂êÊ (ó·: Assets/ScriptableObjects/MapData.asset)")]
+    public string savePath;
+}
