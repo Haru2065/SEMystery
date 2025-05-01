@@ -1,11 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="MapData", menuName ="Game/MapData")]
+/// <summary>
+/// スクリプタブルオブジェクトを作成するスクリプト
+/// </summary>
+[CreateAssetMenu(fileName ="MapData", menuName ="Map/MapData")]
 public class MapData : ScriptableObject
 {
+    //横の幅
     public int width;
+
+    //縦の幅
     public int height;
+
+    //セルの配列（壁床データ）
     public int[] cells;
 }
