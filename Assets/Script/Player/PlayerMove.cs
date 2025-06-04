@@ -1,22 +1,21 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
 /// プレイヤーの操作スクリプト
 /// </summary>
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : PlayerManager
 {
-    [SerializeField]
-    [Tooltip("プレイヤーの移動速度")]
-    private float PlayerMoveSpeed;
 
     [SerializeField]
     [Tooltip("グリッド移動サイズ")]
     public float gridSize;
 
+    //[SerializeField]
     [SerializeField]
-    [Tooltip("壁の当たり判定マネージャー")]
-    private MapHitManager mapHitManager;
+    [Tooltip("椅子の掴むスクリプト")]
+    private PlayerGrabber grabber;
 
     //移動できるか
     private bool isMoving;
@@ -30,11 +29,16 @@ public class PlayerMove : MonoBehaviour
         set => isMoving = value;
     }
 
+    private void Start()
+    {
+        isMoving = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (isMoving == false)
-        {
+        if (IsMoving) return;
+
             Vector2 direction = Vector2.zero;
 
             // 入力取得（WASD/矢印/ゲームパッド）
@@ -43,48 +47,50 @@ public class PlayerMove : MonoBehaviour
 
             if (Mathf.Abs(moveX) > 0) moveY = 0;
 
-            Vector2 moveDir = new Vector2(moveX, moveY);
+            Vector2 inputDir = new Vector2(moveX, moveY);
 
-            if (moveDir != Vector2.zero)
+            if (inputDir != Vector2.zero)
             {
-                Vector3 targetPos = transform.position + (Vector3)(moveDir * gridSize);
-
-                if(!mapHitManager.IsWall(targetPos))
-                {
-                    // 移動方向に壁がない場合、移動を開始
-                    StartCoroutine(Move(moveDir));
-                }
-                else
-                {
-                    // 壁がある場合、移動しない
-                    return;
-                }
+                TryMove(inputDir);
             }
+    }
 
-        }
+    private void TryMove(Vector2 dir)
+    {
+        Vector3 playerTargetPos = transform.position + (Vector3)(dir * gridSize);
 
-        IEnumerator Move(Vector2 direction)
+        if(grabber.IsHolding && grabber.chair != null)
         {
-            isMoving = true;
+            Vector3 chairTargetPos = grabber.chair.position + (Vector3)(dir * gridSize);
 
-            Vector3 targetPos = transform.position;
+            if(MapHitManager.Instance.IsWall(chairTargetPos)) return;
 
-            Vector3 endPos = targetPos + (Vector3)(direction.normalized * gridSize);
-
-            float elapsed = 0f;
-            float duration = gridSize / PlayerMoveSpeed;
-
-            while (elapsed < duration)
-            {
-                transform.position = Vector3.Lerp(targetPos, endPos, elapsed / duration);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-
-            transform.position = endPos;
-            isMoving = false;
+           
         }
 
+        if (MapHitManager.Instance.IsWall(playerTargetPos)) return;
 
+        StartCoroutine(Move(transform, playerTargetPos));
+    }
+
+    //プレイヤーのみ移動させるコールチン
+    IEnumerator Move(Transform  mover,Vector3 target)
+    {
+        isMoving = true;
+
+        Vector3 start = mover.position;
+
+        float elapsed = 0f;
+        float duration = gridSize / PlayerMoveSpeed;
+
+        while (elapsed < duration)
+        {
+           mover.position = Vector3.Lerp(start, target, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        mover.position = target;
+        isMoving = false;
     }
 }
