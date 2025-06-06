@@ -5,19 +5,24 @@ public class PlayerGrabber : MonoBehaviour
     public Transform chair;           //持ちたい椅子(Inspectorで設定)
     public KeyCode grabKey = KeyCode.E;    //Eキーで掴む
 
+    //椅子を掴んでいるか
     private bool isHolding  = false;
 
+    /// <summary>
+    /// 椅子を掴んでいるかのゲッターセッター
+    /// </summary>
     public bool IsHolding
     { 
         get => isHolding; 
         set => isHolding = value; 
     }
 
-
+    //椅子が近くにあるか
     private bool isNearChair = false;
 
     private void Update()
     {
+        //椅子が近くにあるか、掴めるかでかつEを押すと椅子を掴めて、離せる
         if((isNearChair || isHolding) && Input.GetKeyDown(grabKey))
         {
             if(!isHolding)

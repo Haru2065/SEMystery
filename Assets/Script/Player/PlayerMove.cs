@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -55,21 +54,29 @@ public class PlayerMove : PlayerManager
             }
     }
 
+    /// <summary>
+    /// 壁がない状態で歩けるかのチェックするメソッド
+    /// </summary>
+    /// <param name="dir"></param>
     private void TryMove(Vector2 dir)
     {
+        //プレイヤーの当たり判定を位置から設定
         Vector3 playerTargetPos = transform.position + (Vector3)(dir * gridSize);
 
+        //椅子を掴んでいる場合椅子も壁との当たり判定を取る
         if(grabber.IsHolding && grabber.chair != null)
         {
+            //椅子の当たり判定を椅子の位置から設定
             Vector3 chairTargetPos = grabber.chair.position + (Vector3)(dir * gridSize);
 
+            //もし壁があれば動けないようにする
             if(MapHitManager.Instance.IsWall(chairTargetPos)) return;
-
-           
         }
 
+        //もし壁があればプレイヤーは動けないようにする
         if (MapHitManager.Instance.IsWall(playerTargetPos)) return;
 
+        //プレイヤーの移動コールチンを開始
         StartCoroutine(Move(transform, playerTargetPos));
     }
 
