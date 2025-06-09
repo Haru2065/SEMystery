@@ -155,6 +155,7 @@ MonoBehaviour:
   playerMoveSpeed: 5.6
   gridSize: 1
   grabber: {fileID: 100572971}
+  hitManager: {fileID: 2052645153}
 --- !u!212 &100572968
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2386,7 +2387,7 @@ GameObject:
   - component: {fileID: 2052645152}
   - component: {fileID: 2052645153}
   m_Layer: 0
-  m_Name: CSVManager
+  m_Name: MapHitManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2419,7 +2420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21aa2e999db2dfb4192ca746f0183103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitWallTileMap:
+  HitTileMap:
   - {fileID: 394489419}
   - {fileID: 1042869787}
 --- !u!1 &2121315801

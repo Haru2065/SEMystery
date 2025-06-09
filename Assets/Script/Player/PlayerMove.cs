@@ -11,10 +11,13 @@ public class PlayerMove : PlayerManager
     [Tooltip("グリッド移動サイズ")]
     public float gridSize;
 
-    //[SerializeField]
     [SerializeField]
     [Tooltip("椅子の掴むスクリプト")]
     private PlayerGrabber grabber;
+
+    [SerializeField]
+    [Tooltip("当たり判定スクリプト")]
+    private MapHitManager hitManager;
 
     //移動できるか
     private bool isMoving;
@@ -70,11 +73,11 @@ public class PlayerMove : PlayerManager
             Vector3 chairTargetPos = grabber.chair.position + (Vector3)(dir * gridSize);
 
             //もし壁があれば動けないようにする
-            if(MapHitManager.Instance.IsWall(chairTargetPos)) return;
+            if(hitManager.IsWall(chairTargetPos)) return;
         }
 
         //もし壁があればプレイヤーは動けないようにする
-        if (MapHitManager.Instance.IsWall(playerTargetPos)) return;
+        if (hitManager.IsWall(playerTargetPos)) return;
 
         //プレイヤーの移動コールチンを開始
         StartCoroutine(Move(transform, playerTargetPos));

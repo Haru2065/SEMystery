@@ -10,7 +10,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{6441D912-1D71-48C2-3E57-B101EB1F92A6}</ProjectGuid>
+    <ProjectGuid>{D1AE2D12-2AAD-EC57-96C9-302BD79F538B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -62,6 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\Camera\CameraControl.cs" />
+    <Compile Include="Assets\Script\Gimmicks\Chair.cs" />
+    <Compile Include="Assets\Script\Map\TilePainter.cs" />
+    <Compile Include="Assets\Script\PassWard\ColorPassWardManager.cs" />
+    <Compile Include="Assets\Script\PassWard\ColorButton.cs" />
+    <Compile Include="Assets\Script\Player\PlayerGrabber.cs" />
     <Compile Include="Assets\Script\JSON\ScenarioManager.cs" />
     <Compile Include="Assets\Script\Map\MapHitManager.cs" />
     <Compile Include="Assets\Script\JSON\JsonLoder.cs" />
